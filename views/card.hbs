@@ -1,4 +1,5 @@
 <h1>Card</h1>
+<div id="card">
 {{#if courses.length}}
 <table>
     <thead>
@@ -16,7 +17,7 @@
             <td> {{title}} </td>
             <td> {{count}} </td>
             <td>
-                <button class="btn btn-small">Delete</button>
+                <button class="btn btn-small js-remove" data-id='{{id}}'>Delete</button>
             </td>
         </tr>
         {{/each}}
@@ -26,3 +27,4 @@
 {{else}}
 <p>Card is empty</p>
 {{/if}}
+</div>
