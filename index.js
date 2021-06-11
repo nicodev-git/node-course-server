@@ -1,6 +1,9 @@
 const express = require("express");
 const path = require("path");
 const exphbs = require("express-handlebars");
+const homeRoutes = require("./routes/home");
+const addRoutes = require("./routes/add");
+const coursesRoutes = require("./routes/courses");
 
 const app = express();
 
@@ -15,28 +18,9 @@ app.set("views", "views");
 
 app.use(express.static("public"));
 
-app.get("/", (req, res, next) => {
-  //   res.sendFile(path.join(__dirname, "views", "index.html"));
-  res.render("index", {
-    title: "Main page",
-    isHome: true,
-  });
-});
-
-app.get("/add", (req, res) => {
-  //   res.sendFile(path.join(__dirname, "views", "about.html"));
-  res.render("add", {
-    title: "add course",
-    isAdd: true,
-  });
-});
-app.get("/courses", (req, res) => {
-  //   res.sendFile(path.join(__dirname, "views", "about.html"));
-  res.render("courses", {
-    title: "Courses",
-    isCourses: true,
-  });
-});
+app.use("/", homeRoutes);
+app.use("/add", addRoutes);
+app.use("/courses", coursesRoutes);
 
 const PORT = process.env.PORT || 3000;
 //server
