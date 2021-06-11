@@ -32,7 +32,7 @@ const PORT = process.env.PORT || 3000;
 
 async function start() {
   try {
-    const url = `mongodb+srv://H12pb39M:H12pb39M@cluster0.f8fus.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+    const url = `mongodb+srv://H12pb39M:H12pb39M@cluster0.f8fus.mongodb.net/shop`;
     await mongoose.connect(url, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
