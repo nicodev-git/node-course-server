@@ -6,7 +6,11 @@ const router = Router();
 
 router.get("/", async (req, res) => {
   //   res.sendFile(path.join(__dirname, "views", "about.html"));
-  const courses = await Course.find({});
+  const courses = await Course.find()
+    .populate("userId", "email name")
+    .select("price title img");
+
+  console.log(courses);
   res.render("courses", {
     title: "Courses",
     isCourses: true,
