@@ -26,6 +26,10 @@ app.use("/", homeRoutes);
 app.use("/add", addRoutes);
 app.use("/courses", coursesRoutes);
 app.use("/card", cardRoutes);
+app.use((error, req, res, next) => {
+  console.error(error);
+  return res.render("error");
+});
 
 const PORT = process.env.PORT || 3000;
 //server
@@ -36,6 +40,7 @@ async function start() {
     await mongoose.connect(url, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useFindAndModify: false,
     });
     app.listen(PORT, () => {
       console.log(`Service is running on port ${PORT}`);

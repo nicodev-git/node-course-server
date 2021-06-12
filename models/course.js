@@ -1,15 +1,25 @@
 const { Schema, model } = require("mongoose");
-const course = new Schema({
-  title: {
-    type: String,
-    required: true,
+const mongoose = require("mongoose");
+const course = new Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+    img: String,
   },
-  price: {
-    type: Number,
-    required: true,
-  },
-  img: String,
-});
+  {
+    toObject: {
+      transform: function (doc, ret) {
+        ret.id = doc._id;
+      },
+    },
+  }
+);
 module.exports = model("Course", course);
 
 // const uuid = require("uuid");
