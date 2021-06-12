@@ -24,6 +24,9 @@
     </tbody>
 </table>
 <p><strong>Price: </strong> <span class="price"> {{price}} </span></p>
+<form action="/orders" method="POST">
+<button type="submit" class="btn">Make an order</button>
+</form>
 {{else}}
 <p>Card is empty</p>
 {{/if}}

@@ -22,6 +22,12 @@
       {{else}}
         <li><a href="/card">Cart</a>  </li>
   {{/if}} 
+
+   {{#if isOrder}}
+  <li class="active"><a href="/orders">Orders</a>  </li>
+      {{else}}
+        <li><a href="/orders">Orders</a>  </li>
+  {{/if}} 
       </ul>
     </div>
   </nav>
