@@ -41,7 +41,7 @@ router.delete("/remove/:id", auth, async (req, res) => {
   res.status(200).json(cart);
 });
 
-router.get("/", auth, async (req, res) => {
+router.get("/", auth, async (req, res, next) => {
   try {
     // const card = await Card.fetch();
     const user = await req.user.populate("cart.items.courseId").execPopulate();

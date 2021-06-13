@@ -25,16 +25,51 @@ router.get("/logout", async (req, res) => {
 
 router.post("/login", async (req, res, next) => {
   try {
-    const user = await User.findById("60c4b323da0f4c16784b765f");
-    req.session.user = user;
-    req.session.isAuthenticated = true;
-    //чекаємо коли все завершиться а потім перенапрявляємо
-    req.session.save((err) => {
-      if (err) {
-        throw err;
+    const { email, password } = req.body;
+    //шукаємо чи є такий по емейл
+    const candidate = await User.findOne({ email });
+    if (candidate) {
+      const areSame = password === candidate.password;
+
+      if (areSame) {
+        // const user = await User.findById("60c4b323da0f4c16784b765f");
+        req.session.user = candidate;
+        req.session.isAuthenticated = true;
+        //чекаємо коли все завершиться а потім перенапрявляємо
+        req.session.save((err) => {
+          if (err) {
+            throw err;
+          }
+          res.redirect("/");
+        });
+      } else {
+        res.redirect("/auth/login#login");
       }
-      res.redirect("/");
-    });
+    } else {
+      res.redirect("/auth/login#login");
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+router.post("/register", async (req, res, next) => {
+  try {
+    const { name, email, password, repeat } = req.body;
+    //there is the same email
+    const candidate = await User.findOne({ email });
+    if (candidate) {
+      res.redirect("/auth/login#register");
+    } else {
+      const user = new User({
+        email,
+        name,
+        password,
+        cart: { items: [] },
+      });
+      // const user = userLog.toObject();
+      await user.save();
+      res.redirect("/auth/login#login");
+    }
   } catch (error) {
     next(error);
   }

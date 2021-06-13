@@ -29,6 +29,13 @@
     <div id="register" class="col s6 offset-s3">
           <h1>Create an account  </h1>
 <form action="/auth/register" method="POST">
+{{!-- name --}}
+ <div class="input-field">
+          <input  id="name" name='name' type="text" class="validate" required >
+          <label for="name">Your name</label>
+          <span class="helper-text" data-error="Type name" ></span>
+ </div>
+
  <div class="input-field">
           <input  id="remail" name='email' type="email" class="validate" required>
           <label for="remail">Email</label>
