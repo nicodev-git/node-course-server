@@ -2,6 +2,7 @@ const { Router } = require("express");
 const mongoose = require("mongoose");
 const Course = require("../models/course");
 const { route } = require("./home");
+const auth = require("../middleware/auth");
 const router = Router();
 
 router.get("/", async (req, res) => {
@@ -22,7 +23,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id/edit", async (req, res, next) => {
+router.get("/:id/edit", auth, async (req, res, next) => {
   try {
     if (!req.query.allow) {
       return res.redirect("/");
@@ -37,7 +38,7 @@ router.get("/:id/edit", async (req, res, next) => {
   }
 });
 
-router.post("/edit", async (req, res, next) => {
+router.post("/edit", auth, async (req, res, next) => {
   try {
     const { id } = req.body;
     delete req.body.id;
@@ -49,7 +50,7 @@ router.post("/edit", async (req, res, next) => {
   }
 });
 
-router.post("/remove", async (req, res, next) => {
+router.post("/remove", auth, async (req, res, next) => {
   try {
     await Course.deleteOne({
       _id: req.body.id,
