@@ -1,0 +1,53 @@
+ <div class="auth">  
+ <div class="row">
+
+    <div class="col s12">
+      <ul class="tabs">
+        <li class="tab col s6"><a class="active"  href="#login">sign in</a></li>
+        <li class="tab col s6"><a href="#register">sign up</a></li>
+      
+      </ul>
+    </div>
+    <div id="login" class="col s6 offset-s3">
+                <h1>Sign in the shop</h1>
+<form action="/add" method="POST">
+ <div class="input-field">
+          <input  id="email" name='email' type="email" class="validate" required>
+          <label for="email">Email</label>
+            <span class="helper-text" data-error="Type email" ></span>
+ </div>
+  <div class="input-field">
+          <input  id="password" name='password' type="password" class="validate" required >
+          <label for="password">Password</label>
+          <span class="helper-text" data-error="Type password" ></span>
+ </div>
+
+ 
+ <button class="btn btn-primary" type="submit">Sign in</button>
+</form>
+    </div>
+    <div id="register" class="col s6 offset-s3">
+          <h1>Create an account  </h1>
+<form action="/add" method="POST">
+ <div class="input-field">
+          <input  id="remail" name='email' type="email" class="validate" required>
+          <label for="remail">Email</label>
+            <span class="helper-text" data-error="Type email" ></span>
+ </div>
+  <div class="input-field">
+          <input  id="rpassword" name='password' type="password" class="validate" required >
+          <label for="rpassword">Password</label>
+          <span class="helper-text" data-error="Type password" ></span>
+ </div>
+  <div class="input-field">
+          <input  id="confirm" name='confirm' type="password" class="validate" required >
+          <label for="confirm">Enter password again</label>
+          <span class="helper-text" data-error="enter password again" ></span>
+ </div>
+ 
+ <button class="btn btn-primary" type="submit">Sign up</button>
+</form>
+    </div>
+   
+  </div>
+</div>
