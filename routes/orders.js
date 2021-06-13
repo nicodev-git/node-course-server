@@ -2,7 +2,7 @@ const { Router } = require("express");
 const Order = require("../models/order");
 const router = Router();
 
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
   try {
     const orders = await Order.find({
       "user.userId": req.user._id,
@@ -11,20 +11,21 @@ router.get("/", async (req, res) => {
       isOrder: true,
       title: "Orders",
       orders: orders.map((o) => {
+        const order = o.toObject();
         return {
-          ...o._doc,
-          price: o.courses.reduce((total, c) => {
-            return (total += c.count * c.count.price);
+          ...order,
+          price: order.courses.reduce((total, c) => {
+            return (total += c.count * c.course.price);
           }, 0),
         };
       }),
     });
   } catch (e) {
-    console.log(e);
+    next(e);
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
   try {
     const user = await req.user.populate("cart.items.courseId").execPopulate();
 
@@ -36,9 +37,10 @@ router.post("/", async (req, res) => {
     const order = new Order({
       user: {
         name: req.user.name,
+        email: req.user.email,
         userId: req.user,
       },
-      courses: courses,
+      courses: courses.toObject(),
     });
 
     await order.save();
@@ -46,7 +48,7 @@ router.post("/", async (req, res) => {
 
     res.redirect("/orders");
   } catch (e) {
-    console.log(e);
+    next(e);
   }
 });
 module.exports = router;

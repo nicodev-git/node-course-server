@@ -5,17 +5,21 @@ const { route } = require("./home");
 const router = Router();
 
 router.get("/", async (req, res) => {
-  //   res.sendFile(path.join(__dirname, "views", "about.html"));
-  const courses = await Course.find()
-    .populate("userId", "email name")
-    .select("price title img");
+  try {
+    //   res.sendFile(path.join(__dirname, "views", "about.html"));
+    const courses = await Course.find()
+      .populate("userId", "email name")
+      .select("price title img");
 
-  console.log(courses);
-  res.render("courses", {
-    title: "Courses",
-    isCourses: true,
-    courses: courses.map((elem) => ({ ...elem.toObject() })),
-  });
+    console.log(courses);
+    res.render("courses", {
+      title: "Courses",
+      isCourses: true,
+      courses: courses.map((elem) => ({ ...elem.toObject() })),
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.get("/:id/edit", async (req, res, next) => {
