@@ -17,10 +17,13 @@
             <span class="helper-text" data-error="Type image URL" ></span>
  </div>
  <input type="hidden" name='id' value="{{course._id}}" >
+ <input type="hidden" name="_csrf" value="{{csrf}}" >
+
  <button type="submit" class="btn btn-primary">Edit course</button>
 
 </form>
 <form action="/courses/remove" method="POST">
 <input type="hidden" name='id' value="{{course._id}}" >
+<input type="hidden" name="_csrf" value="{{csrf}}" >
   <button class="btn red">Delete course</button>
 </form>
