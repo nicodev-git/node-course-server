@@ -13,6 +13,7 @@ const cardRoutes = require("./routes/card");
 const authRoutes = require("./routes/auth");
 const User = require("./models/user");
 const varMiddleware = require("./middleware/variables");
+const userMiddleware = require("./middleware/user");
 
 const MONGODB_URI = `mongodb+srv://H12pb39M:H12pb39M@cluster0.f8fus.mongodb.net/shop`;
 
@@ -54,6 +55,7 @@ app.use(
   })
 );
 app.use(varMiddleware);
+app.use(userMiddleware);
 
 app.use("/", homeRoutes);
 app.use("/add", addRoutes);
