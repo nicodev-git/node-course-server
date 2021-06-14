@@ -73,7 +73,7 @@ router.post("/login", async (req, res, next) => {
 });
 router.post("/register", registerValidators, async (req, res, next) => {
   try {
-    const { name, email, password, confirm } = req.body;
+    const { name, email, password } = req.body;
     //there is the same email
     const candidate = await User.findOne({ email });
 
@@ -83,23 +83,23 @@ router.post("/register", registerValidators, async (req, res, next) => {
       return res.status(422).redirect("/auth/login#register");
     }
 
-    if (candidate) {
-      req.flash("registerError", "Person with this email exists already");
-      res.redirect("/auth/login#register");
-    } else {
-      const hashPassword = await bcrypt.hash(password, 10);
-      const user = new User({
-        email,
-        name,
-        password: hashPassword,
-        cart: { items: [] },
-      });
-      // const user = userLog.toObject();
-      await user.save();
+    // if (candidate) {
+    //   req.flash("registerError", "Person with this email exists already");
+    //   res.redirect("/auth/login#register");
+    // } else {
+    const hashPassword = await bcrypt.hash(password, 10);
+    const user = new User({
+      email,
+      name,
+      password: hashPassword,
+      cart: { items: [] },
+    });
+    // const user = userLog.toObject();
+    await user.save();
 
-      await transporter.sendMail(regEmail(email));
-      res.redirect("/auth/login#login");
-    }
+    await transporter.sendMail(regEmail(email));
+    res.redirect("/auth/login#login");
+    // }
   } catch (error) {
     next(error);
   }
