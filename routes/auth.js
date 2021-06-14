@@ -1,13 +1,14 @@
 const { Router } = require("express");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
-const { body, validationResult } = require("express-validator/check");
+const { body, validationResult } = require("express-validator");
 const nodemailer = require("nodemailer");
 const sendgrid = require("nodemailer-sendgrid-transport");
 const User = require("../models/user");
 const keys = require("../keys");
 const regEmail = require("../emails/registration");
 const resetEmail = require("../emails/reset");
+const { registerValidators } = require("../utils/validators");
 const router = Router();
 
 const transporter = nodemailer.createTransport(
@@ -70,7 +71,7 @@ router.post("/login", async (req, res, next) => {
     next(error);
   }
 });
-router.post("/register", body("email").isEmail(), async (req, res, next) => {
+router.post("/register", registerValidators, async (req, res, next) => {
   try {
     const { name, email, password, confirm } = req.body;
     //there is the same email
