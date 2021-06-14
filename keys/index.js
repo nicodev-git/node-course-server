@@ -4,4 +4,6 @@ module.exports = {
   SESSION_SECRET: "some secret value",
   SENDGRID_API_KEY:
     "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",
+  EMAIL_FROM: "queenviktoriyphp@gmail.com",
+  BASE_URL: "http://localhost:3000",
 };
