@@ -1,14 +1,14 @@
 const { Router } = require("express");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
-const { body, validationResult } = require("express-validator");
+const { validationResult } = require("express-validator");
 const nodemailer = require("nodemailer");
 const sendgrid = require("nodemailer-sendgrid-transport");
 const User = require("../models/user");
 const keys = require("../keys");
 const regEmail = require("../emails/registration");
 const resetEmail = require("../emails/reset");
-const { registerValidators } = require("../utils/validators");
+const { registerValidators, loginValidators } = require("../utils/validators");
 const router = Router();
 
 const transporter = nodemailer.createTransport(
@@ -40,11 +40,16 @@ router.get("/logout", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res, next) => {
+router.post("/login", loginValidators, async (req, res, next) => {
   try {
     const { email, password } = req.body;
     //шукаємо чи є такий по емейл
     const candidate = await User.findOne({ email });
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      req.flash("loginError", errors.array()[0].msg);
+      return res.status(422).redirect("/auth/login#login");
+    }
     if (candidate) {
       const areSame = await bcrypt.compare(password, candidate.password);
 

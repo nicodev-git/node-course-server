@@ -1,4 +1,4 @@
-const { body, validationResult } = require("express-validator");
+const { body } = require("express-validator");
 const User = require("../models/user");
 exports.registerValidators = [
   body("email")
@@ -15,7 +15,7 @@ exports.registerValidators = [
       }
     })
     .normalizeEmail(),
-  body("password", "Password must be minimus 4 symbols")
+  body("password", "Password must be minimum 4 symbols")
     .isLength({ min: 4, max: 56 })
     .isAlphanumeric()
     .trim(),
@@ -31,4 +31,20 @@ exports.registerValidators = [
     .isLength({ min: 3 })
     .withMessage("the name must be bigger than 3 letters")
     .trim(),
+];
+exports.loginValidators = [
+  body("email").isEmail().withMessage("Type correct email").normalizeEmail(),
+  body("password", "Password must be minimum 4 symbols")
+    .isLength({ min: 4, max: 56 })
+    .isAlphanumeric()
+    .trim(),
+];
+
+exports.courseValidators = [
+  body("title")
+    .isLength({ min: 3 })
+    .withMessage("The title must be longer than 3 letters")
+    .trim(),
+  body("price").isNumeric().withMessage("Type correct price"),
+  body("img", "type correct picture URL").isURL(),
 ];

@@ -1,7 +1,7 @@
 const { Router } = require("express");
-const mongoose = require("mongoose");
+const { body, validationResult } = require("express-validator");
 const Course = require("../models/course");
-const { route } = require("./home");
+const { courseValidators } = require("../utils/validators");
 const auth = require("../middleware/auth");
 const router = Router();
 
@@ -47,9 +47,14 @@ router.get("/:id/edit", auth, async (req, res, next) => {
   }
 });
 
-router.post("/edit", auth, async (req, res, next) => {
+router.post("/edit", auth, courseValidators, async (req, res, next) => {
+  const errors = validationResult(req);
+  const { id } = req.body;
+
+  if (!errors.isEmpty()) {
+    return res.status(422).redirect(`/courses/${id}/edit?allow=true`);
+  }
   try {
-    const { id } = req.body;
     delete req.body.id;
     const course = await Course.findById(id);
     if (!isOwner(course, req)) {
