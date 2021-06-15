@@ -1,0 +1,30 @@
+<h1>Profile</h1>
+
+<div class="row">
+    <div class="col s6">
+        <img class="avatar" src="https://upload.wikimedia.org/wikipedia/commons/6/69/Linus_Torvalds.jpeg" alt="">
+        <p>There is no avatar</p>
+    </div>
+    <div class="col s6">
+        <form action="/profile" method="POST">
+
+        <p>Your email: <strong>{{user.email}} </strong> </p>
+       <div class="input-field">
+          <input  id="name" name='name' type="text" class="validate" required value='{{user.name}}'>
+          <label for="name">Your name</label>
+            <span class="helper-text" data-error="Name can't be empty" ></span>
+         </div>
+           <div class="file-field input-field">
+           <div class="btn">
+             <span>Avatar</span>
+             <input type="file" name="avatar">
+           </div>
+           <div class="file-path-wrapper">
+             <input class="file-path validate" type="text">
+           </div>
+         </div>
+          <input type="hidden" name="_csrf" value="{{csrf}}" >
+          <button type="submit" class="btn">Change</button>
+        </form>
+    </div>
+</div>
