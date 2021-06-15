@@ -15,6 +15,7 @@ const cardRoutes = require("./routes/card");
 const authRoutes = require("./routes/auth");
 const varMiddleware = require("./middleware/variables");
 const userMiddleware = require("./middleware/user");
+const errorHandler = require("./middleware/error");
 const keys = require("./keys");
 
 const app = express();
@@ -70,7 +71,7 @@ app.use((error, req, res, next) => {
   console.error(error);
   return res.render("error");
 });
-
+app.use(errorHandler);
 const PORT = process.env.PORT || 3000;
 //server
 
