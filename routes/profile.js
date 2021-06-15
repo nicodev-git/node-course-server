@@ -1,7 +1,8 @@
 const { Router } = require("express");
 const auth = require("../middleware/auth");
+const User = require("../models/user");
 const router = Router();
-router.get("/", async (req, res, next) => {
+router.get("/", auth, async (req, res, next) => {
   try {
     res.render("profile", {
       title: "Profile",
@@ -12,8 +13,23 @@ router.get("/", async (req, res, next) => {
     next(error);
   }
 });
-router.post("/", async (req, res, next) => {
+router.post("/", auth, async (req, res, next) => {
   try {
+    const user = await User.findById(req.user._id);
+
+    const toChange = {
+      name: req.body.name,
+    };
+
+    if (req.file) {
+      toChange.avatarUrl = req.file.path;
+    }
+
+    Object.assign(user, toChange);
+
+    await user.save();
+
+    res.redirect("/profile");
   } catch (error) {
     next(error);
   }
