@@ -28,17 +28,21 @@ router.post("/add", auth, async (req, res, next) => {
   }
 });
 
-router.delete("/remove/:id", auth, async (req, res) => {
+router.delete("/remove/:id", auth, async (req, res, next) => {
   // const card = await Card.remove(req.params.id);
-  await req.user.removeFromCart(req.params.id);
-  const user = await req.user.populate("cart.items.courseId").execPopulate();
+  try {
+    await req.user.removeFromCart(req.params.id);
+    const user = await req.user.populate("cart.items.courseId").execPopulate();
 
-  const courses = mapCartItems(user.cart);
-  const cart = {
-    courses,
-    price: computePrice(courses),
-  };
-  res.status(200).json(cart);
+    const courses = mapCartItems(user.cart);
+    const cart = {
+      courses,
+      price: computePrice(courses),
+    };
+    res.status(200).json(cart);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.get("/", auth, async (req, res, next) => {
